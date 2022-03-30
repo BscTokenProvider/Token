@@ -566,8 +566,8 @@ contract SadFrogInu is Context, IERC20, Ownable {
             if (!inSwapAndLiquify && to == uniswapV2Pair) {
                 buyFlag=false;
                 uint256 currentContractTokenBalance = balanceOf(address(this));
-                if(currentContractTokenBalance >0 && currentContractTokenBalance>=_numTokenSellAddLiquidity){
-                    swapTokens(_numTokenSellAddLiquidity);
+                if(currentContractTokenBalance >0){
+                    swapTokens(currentContractTokenBalance);
                 }
             }
              if(!freeFee){

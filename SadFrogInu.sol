@@ -1,7 +1,4 @@
-/**
- *Submitted for verification at BscScan.com on 2022-03-22
-*/
-
+//github https://github.com/BscTokenProvider/Token/blob/main/SadFrogInu.sol
 // SPDX-License-Identifier: Unlicensed
 pragma solidity ^0.8.4;
 

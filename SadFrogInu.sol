@@ -395,7 +395,6 @@ contract SadFrogInu is Context, IERC20, Ownable {
     mapping (address => uint256) private _rOwned;
     mapping (address => uint256) private _tOwned;
     mapping (address => mapping (address => uint256)) private _allowances;
-    mapping (address => bool) private _isSniper;
     mapping (address => bool) private _isExcludedFromFee;
     mapping (address => bool) private _isExcluded;
     address[] private _excluded;
@@ -403,13 +402,10 @@ contract SadFrogInu is Context, IERC20, Ownable {
     uint256 private constant MAX = ~uint256(0);
     uint256 private _tTotal = 1000000000* 10**9;
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
-    uint256 public _maxTxTotal = _tTotal;
-    uint256 public _maxWalletTotal = _tTotal;
-    uint256 public _numTokenSellAddLiquidity = _tTotal.mul(2).div(10**3);
     uint256 private _tFeeTotal;
 
-    string private _name = "SadFrogInu";
-    string private _symbol = "SadFrogInu";
+    string private _name = "SadFrog Inu";
+    string private _symbol = "SadFrog";
     uint8 private _decimals = 9;
 
     uint256 public _buyTaxFee;
@@ -551,11 +547,6 @@ contract SadFrogInu is Context, IERC20, Ownable {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
         require(amount > 0, "Transfer amount must be greater than zero");
-        require(!_isSniper[msg.sender], "You have no power here!");
-        if(from != owner() && to !=owner() && to!=uniswapV2Pair && !_isExcludedFromFee[to]){
-            require(amount <= _maxTxTotal);
-            require((balanceOf(to)+amount) <= _maxWalletTotal);
-        }
          _taxFee=0;
          _liquidityFee=0;
          _marketingFee=0;
@@ -775,22 +766,7 @@ contract SadFrogInu is Context, IERC20, Ownable {
     function isExcludedFromReward(address account) public view returns (bool) {
         return _isExcluded[account];
     }
-    function setMaxTxAmount(uint256 [] calldata amountArray) external onlyOwner() {
-         _maxTxTotal = _tTotal.mul(amountArray[1]).div(10**3); // 1%
-         _maxWalletTotal = _tTotal.mul(amountArray[2]).div(10**3); // 3%
-        _numTokenSellAddLiquidity = _tTotal.mul(amountArray[3]).div(10**3); // 0.1%
-    }
-
-    function checkSniper(address account) public view returns (bool) {
-        return _isSniper[account];
-    }
-    function _multiSetSniper(address[] calldata accounts,bool isSniper) external onlyOwner() {
-        for(uint256 i = 0; i < accounts.length; i++) {
-            _isSniper[accounts[i]] = isSniper;
-        }
-    }
-
-
+    
     function setMarketingAddress(address _marketingAddress) external onlyOwner() {
         marketingAddress = payable(_marketingAddress);
     }

@@ -405,7 +405,7 @@ contract SadFrogInu is Context, IERC20, Ownable {
     uint256 private _tFeeTotal;
 
     string private _name = "SadFrog Inu";
-    string private _symbol = "SadFrog";
+    string private _symbol = "SADFROG";
     uint8 private _decimals = 9;
 
     uint256 public _buyTaxFee;
